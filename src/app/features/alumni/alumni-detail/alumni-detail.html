@@ -11,7 +11,7 @@
     <section class="alumni-detail-section">
       <div class="row justify-content-center">
         <div class="col-lg-7 col-md-9">
-          <div class="flipcard">
+          <div class="flipcard" (click)="toggleFlip()" [class.flipped]="isFlipped">
             <div class="flipcard-inner">
 
               <!-- FACE AVANT -->

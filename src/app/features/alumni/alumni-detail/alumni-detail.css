@@ -27,8 +27,7 @@ model-viewer { display: block; }
   border-radius: 20px;
 }
 
-/* ✅ on applique la rotation ici, pas sur .cover */
-.flipcard:hover .flipcard-inner {
+.flipcard.flipped .flipcard-inner {
   transform: rotateY(180deg);
 }
 

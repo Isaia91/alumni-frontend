@@ -58,4 +58,10 @@ export class AlumniDetailComponent implements OnInit {
     const i2 = n ? n[0] : '';
     return (i1 + i2).toUpperCase() || 'AL';
   }
+
+  isFlipped = false;
+
+  toggleFlip() {
+    this.isFlipped = !this.isFlipped;
+  }
 }
