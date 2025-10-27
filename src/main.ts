@@ -5,7 +5,7 @@ import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes, withHashLocation())
+    provideRouter(routes)
   ]
 })
   .catch(err => console.error(err));

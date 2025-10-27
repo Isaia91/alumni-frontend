@@ -3,7 +3,7 @@ command = "npm ci && npm run build"
 publish = "dist/alumni-frontend/browser"
 
 [build.environment]
-NODE_VERSION = "22.12.0"   # (ou "20.19.0")
+NODE_VERSION = "22.12.0"
 
 [[redirects]]
 from = "/*"
