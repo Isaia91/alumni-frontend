@@ -1,0 +1,49 @@
+<!-- src/app/features/alumni/alumni-list/alumni-list.html -->
+<div class="container py-3">
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <h3 class="mb-0">Alumnis</h3>
+    <div class="ms-auto d-flex gap-2">
+      <input class="form-control" placeholder="Rechercher…" [(ngModel)]="search">
+      <button class="btn btn-outline-secondary" (click)="load()" [disabled]="loading">Recharger</button>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+  <div class="text-center py-4" *ngIf="loading">
+    <div class="spinner-border" role="status" aria-hidden="true"></div>
+    <div class="mt-2">Chargement…</div>
+  </div>
+
+  <div class="row g-3" *ngIf="!loading">
+    <div class="col-sm-6 col-lg-4 col-xxl-3" *ngFor="let a of filtered()">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-start justify-content-between mb-2">
+            <h5 class="card-title mb-0">{{ displayName(a) }}</h5>
+            <a [routerLink]="['/alumni', a.id]" class="btn btn-sm btn-primary">Voir</a>
+          </div>
+
+          <div class="small text-muted mb-2">
+            {{ a.promotionType }} • {{ a.graduationYear }}
+          </div>
+
+          <p class="card-text flex-grow-1">
+            <strong>{{ a.position }}</strong><br>
+            <span *ngIf="a.company">{{ a.company }}</span>
+          </p>
+
+          <div class="small text-muted mb-2">
+            {{ a.city }} <span *ngIf="a.country">({{ a.country }})</span>
+          </div>
+
+          <div class="mt-2 text-center">
+            <div class="small mb-1">QR (ouvrir la carte) :</div>
+            <qrcode [qrdata]="qrUrl(a)" [width]="120" [errorCorrectionLevel]="'M'"></qrcode>
+            <div class="form-text">Scannez pour ouvrir {{ displayName(a) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

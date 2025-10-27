@@ -1,0 +1,274 @@
+model-viewer { display: block; }
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;600&display=swap');
+
+model-viewer { display: block; }
+:host { display: block; }
+
+.alumni-detail-section {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.flipcard {
+  position: relative;
+  height: 460px;
+  width: 100%;
+  margin: 18px 0 32px;
+  perspective: 1200px;
+}
+
+/* ✅ le wrapper qui pivote */
+.flipcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1.2s ease;
+  border-radius: 20px;
+}
+
+/* ✅ on applique la rotation ici, pas sur .cover */
+.flipcard:hover .flipcard-inner {
+  transform: rotateY(180deg);
+}
+
+/* Effets de profondeur de la face (ok de les garder) */
+.flipcard:hover .cover:before { transform: translateZ(30px); }
+.flipcard:hover .cover:after { background-color: rgba(0,0,0,.55); }
+.flipcard:hover .cover .title { transform: translateZ(100px); }
+.flipcard:hover .cover .meta { transform: translateZ(70px); }
+.flipcard:hover .cover .quick-actions a { transform: translateZ(40px); }
+
+/* FACE (devant) */
+.cover {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: ease all 1.2s;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  overflow: hidden;
+  transform: rotateY(0deg);
+
+  /* ✅ important pour ne pas voir la face avant quand c’est retourné */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cover:before {
+  content: '';
+  position: absolute;
+  top:16px; left:16px; right:16px; bottom:16px;
+  border: 4px solid rgba(255,255,255,.45);
+  box-shadow: 0 0 12px rgba(0,0,0,.25);
+  z-index: 2;
+  transition: ease all 1.2s;
+  transform-style: preserve-3d;
+  transform: translateZ(0px);
+  border-radius: 16px;
+}
+
+.cover:after {
+  content: '';
+  position: absolute;
+  inset:0;
+  z-index: 1;
+  transition: ease all .9s;
+  background: rgba(0,0,0,.35);
+}
+
+/* Variantes visuelles (dégradés) */
+.cover.item-a {
+  background-image:
+    radial-gradient(1200px 600px at 80% 10%, #6ee7b7 0%, transparent 60%),
+    linear-gradient(135deg, #0ea5e9, #7c3aed);
+}
+.cover.item-b {
+  background-image:
+    radial-gradient(1200px 600px at 20% 80%, #462478 0%, transparent 60%),
+    linear-gradient(135deg, #EFC32E, #462478);
+}
+.cover.item-c {
+  background-image:
+    radial-gradient(1200px 600px at 50% 30%, #93c5fd 0%, transparent 60%),
+    linear-gradient(135deg, #10b981, #3b82f6);
+}
+
+.cover .avatar-badge {
+  position: absolute;
+  top: 28px; left: 28px;
+  z-index: 3;
+  width: 54px; height: 54px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.35);
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: .5px;
+  transform-style: preserve-3d;
+  transition: ease all 1.2s;
+  transform: translateZ(40px);
+}
+
+.cover .title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  position: absolute;
+  bottom: 88px;
+  left: 40px;
+  right: 40px;
+  color: white;
+  transform-style: preserve-3d;
+  transition: ease all 1.2s;
+  z-index: 3;
+  font-size: clamp(28px, 4.6vw, 42px);
+  line-height: 1.05;
+  transform: translateZ(0px);
+  text-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+.cover .meta {
+  position: absolute;
+  bottom: 54px;
+  left: 40px;
+  color: rgba(255,255,255,.95);
+  font-weight: 300;
+  font-size: 1rem;
+  letter-spacing: .2px;
+  transform-style: preserve-3d;
+  transition: ease all 1.2s;
+  z-index: 3;
+  transform: translateZ(0px);
+}
+
+.cover .meta .dot { opacity:.8; margin: 0 .35rem; }
+
+.cover .quick-actions {
+  position: absolute;
+  bottom: 24px;
+  left: 40px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+
+.cover .quick-actions .btn-ghost {
+  transform-style: preserve-3d;
+  transform: translateZ(0px);
+  transition: ease transform 1.2s, ease background .4s, ease color .4s;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.55);
+  font-weight: 400;
+  font-size: .95rem;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  backdrop-filter: blur(2px);
+}
+.cover .quick-actions .btn-ghost:hover { background: white; color: #0b0f08; }
+
+/* DOS de la carte */
+.card-back {
+  position: absolute;
+  inset: 0;
+  background: #0b0f08;
+  transform-style: preserve-3d;
+  transition: ease all 1.2s;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border-radius: 20px;
+}
+
+.card-back .back-inner { width: min(92%, 680px); color: #e5e7eb; }
+
+.card-back .data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  margin: 0 0 14px 0;
+}
+.card-back .data div { display: contents; }
+.card-back .data dt { font-size: .85rem; color: #9ca3af; }
+.card-back .data dd { margin: 0 0 8px 0; font-size: 1rem; color: #e5e7eb; }
+
+.card-back .back-actions { margin: 6px 0 16px; display: flex; flex-wrap: wrap; gap: 10px; }
+.card-back .back-actions .btn-solid,
+.card-back .back-actions .btn-outline {
+  transform-style: preserve-3d;
+  transform: none;
+  transition: ease transform 1.2s, ease background .3s, ease color .3s, ease border-color .3s;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: .95rem;
+}
+.card-back .back-actions .btn-solid { background: white; color: #0b0f08; border: 1px solid white; }
+.card-back .back-actions .btn-solid:hover { background: transparent; color: #fff; border-color: #fff; }
+.card-back .back-actions .btn-outline { background: transparent; color: #fff; border: 1px solid #9ca3af; }
+.card-back .back-actions .btn-outline:hover { border-color: #fff; color: #fff; }
+
+.card-back .story { margin-top: 8px; }
+.card-back .story h6 { font-weight: 700; margin: 0 0 6px; color: #fff; }
+.card-back .story p { margin: 0; color: #e5e7eb; line-height: 1.5; max-height: 7.5em; overflow: auto; }
+
+/* Responsive */
+@media (max-width: 576px) {
+  .flipcard { height: 520px; }
+  .cover .title { left: 24px; right: 24px; }
+  .cover .meta  { left: 24px; }
+  .cover .quick-actions { left: 24px; }
+}
+
+/* Réduction animations */
+@media (prefers-reduced-motion: reduce) {
+  .flipcard,
+  .cover,
+  .card-back,
+  .cover:before,
+  .cover:after,
+  .cover .title,
+  .cover .meta,
+  .cover .quick-actions a,
+  .card-back .btn-solid,
+  .card-back .btn-outline {
+    transition: none !important;
+  }
+}
+
+
+/* pile des infos en bas */
+.cover .meta-stack{
+  position: absolute;
+  left: 40px; right: 40px; bottom: 24px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: rgba(255,255,255,.95);
+  font-weight: 300;
+  font-size: 1rem;
+  letter-spacing: .2px;
+  transform-style: preserve-3d;
+  transition: ease all 1.2s;
+}
+.cover .meta-stack .line { transform: translateZ(0px); }
+.cover .meta-stack .dot { opacity:.8; margin: 0 .35rem; }
+
+/* remonte un peu le titre pour laisser la pile respirer */
+.cover .title { bottom: 110px; } /* avant: 88px */
+
+/* optionnel: ne plus utiliser l’ancien .meta absolu */
+.cover .meta { position: static; }
