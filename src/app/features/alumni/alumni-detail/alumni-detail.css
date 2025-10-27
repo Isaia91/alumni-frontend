@@ -114,8 +114,11 @@ model-viewer { display: block; }
   transform: translateZ(40px);
 }
 
+.title {
+  font-family: 'BeyondTheMountains', cursive;
+}
+
 .cover .title {
-  font-family: 'Oswald', sans-serif;
   font-weight: 600;
   position: absolute;
   bottom: 88px;
