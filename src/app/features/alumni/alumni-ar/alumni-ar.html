@@ -1,11 +1,17 @@
+<!-- alumni-ar.html -->
 <a-scene embedded arjs>
-  <a-marker preset="hiro">
+  <!-- marqueur collé sur la table (imprime Hiro ou ton .patt custom) -->
+  <a-marker preset="hiro" id="marker">
     <a-entity
+      gltf-model="assets/models/Iut.glb"
       position="0 0 0"
       rotation="0 0 0"
-      gltf-model="assets/models/alumni_model.glb"
-      scale="0.5 0.5 0.5">
+      scale="0.02 0.02 0.02"
+    animation__rot="property=rotation; to=0 360 0; loop:true; dur:30000; easing:linear">
     </a-entity>
   </a-marker>
+
+  <a-entity light="type: directional; intensity: 1" position="1 1 1"></a-entity>
+  <a-entity light="type: ambient; intensity: 0.6"></a-entity>
   <a-entity camera></a-entity>
 </a-scene>
