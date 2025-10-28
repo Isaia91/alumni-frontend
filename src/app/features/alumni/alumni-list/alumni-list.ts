@@ -10,7 +10,8 @@ import { AlumniService, Alumni } from '../../../core/services/alumni.service';
   selector: 'app-alumni-list',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, QRCodeComponent],
-  templateUrl: './alumni-list.html'
+  templateUrl: './alumni-list.html',
+  styleUrls: ['./alumni-list.css']
 })
 export class AlumniListComponent implements OnInit {
   private alumniSvc = inject(AlumniService);
