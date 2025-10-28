@@ -1,13 +1,9 @@
-<!-- alumni-ar.html -->
 <a-scene embedded arjs>
-  <!-- marqueur collé sur la table (imprime Hiro ou ton .patt custom) -->
-  <a-marker preset="hiro" id="marker">
+  <a-marker type="pattern" patternUrl="assets/markers/iut10ans.patt" id="marker">
     <a-entity
       gltf-model="assets/models/Iut.glb"
-      position="0 0 0"
-      rotation="0 0 0"
       scale="0.02 0.02 0.02"
-    animation__rot="property=rotation; to=0 360 0; loop:true; dur:30000; easing:linear">
+      position="0 0 0">
     </a-entity>
   </a-marker>
 
