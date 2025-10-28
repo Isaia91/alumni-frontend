@@ -1,6 +1,11 @@
 <!-- src/app/features/alumni/alumni-detail/alumni-detail.html -->
-<div class="container py-4">
-  <a routerLink="/alumni" class="btn btn-link">← Retour</a>
+<div class="container-contactcard">
+  <a href="/alumni" class="back-btn" aria-label="Retour">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 6l-6 6 6 6"/>
+    </svg>
+    <span>Retour</span>
+  </a>
 
   <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
   <div class="text-center py-4" *ngIf="loading">
@@ -9,17 +14,15 @@
 
   <ng-container *ngIf="!loading && data as a">
     <section class="alumni-detail-section">
-      <div class="row justify-content-center">
+      <div class="row justify-content-center align-items-center h-100">
         <div class="col-lg-7 col-md-9">
           <div class="flipcard" (click)="toggleFlip()" [class.flipped]="isFlipped">
             <div class="flipcard-inner">
 
               <!-- FACE AVANT -->
-              <div class="cover" [ngClass]="itemClass(a)">
-                <!-- Avatar avec initiales -->
+              <div class="cover">
                 <div class="avatar-badge" aria-hidden="true">{{ initials(a) }}</div>
 
-                <!-- Contenu principal (aligné en bas) -->
                 <div class="cover-content">
                   <h1 class="title">{{ displayName(a) }}</h1>
 
@@ -36,39 +39,58 @@
 
               <!-- FACE ARRIÈRE -->
               <div class="card-back">
-                <div class="back-inner">
-                  <dl class="data">
-                    <div>
-                      <dt>Nom</dt>
-                      <dd>{{ a.name || '—' }}</dd>
-                    </div>
-                    <div>
-                      <dt>Prénom</dt>
-                      <dd>{{ a.firstname || '—' }}</dd>
-                    </div>
-                    <div *ngIf="a.position || a.company">
-                      <dt>Poste</dt>
-                      <dd>
-                        <span *ngIf="a.position">{{ a.position }}</span>
-                        <span *ngIf="a.position && a.company"> — </span>
-                        <span *ngIf="a.company">{{ a.company }}</span>
-                      </dd>
-                    </div>
-                    <div *ngIf="a.city || a.country">
-                      <dt>Localisation</dt>
-                      <dd>{{ a.city }} <span *ngIf="a.country">({{ a.country }})</span></dd>
-                    </div>
-                    <div>
-                      <dt>Formation</dt>
-                      <dd>{{ a.promotionType || '—' }}</dd>
-                    </div>
-                    <div>
-                      <dt>Promotion</dt>
-                      <dd>{{ a.graduationYear || '—' }}</dd>
-                    </div>
-                  </dl>
+                <div class="back-header">
+                  <div class="avatar-lg" aria-hidden="true">{{ initials(a) }}</div>
+                  <div class="id">
+                    <h2 class="name">{{ displayName(a) || 'Alumni' }}</h2>
+                    <p class="sub">
+                      {{ a.promotionType || 'Formation' }}
+                      <span class="dot">•</span>
+                      {{ a.graduationYear || '—' }}
+                    </p>
+                  </div>
+                </div>
 
-                  <div class="back-actions">
+                <div class="back-inner">
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <span class="info-label">Nom</span>
+                      <span class="info-value">{{ a.name || '—' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                      <span class="info-label">Prénom</span>
+                      <span class="info-value">{{ a.firstname || '—' }}</span>
+                    </div>
+
+                    <div class="info-item" *ngIf="a.position || a.company">
+                      <span class="info-label">Poste</span>
+                      <span class="info-value">
+                        <ng-container *ngIf="a.position">{{ a.position }}</ng-container>
+                        <ng-container *ngIf="a.position && a.company"> — </ng-container>
+                        <ng-container *ngIf="a.company">{{ a.company }}</ng-container>
+                      </span>
+                    </div>
+
+                    <div class="info-item" *ngIf="a.city || a.country">
+                      <span class="info-label">Localisation</span>
+                      <span class="info-value">
+                        {{ a.city }} <span *ngIf="a.country">({{ a.country }})</span>
+                      </span>
+                    </div>
+
+                    <div class="info-item">
+                      <span class="info-label">Formation</span>
+                      <span class="info-value">{{ a.promotionType || '—' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                      <span class="info-label">Promotion</span>
+                      <span class="info-value">{{ a.graduationYear || '—' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="actions">
                     <a *ngIf="a.linkedin" class="btn-solid" [href]="a.linkedin" target="_blank" rel="noopener">
                       Voir le profil LinkedIn
                     </a>
@@ -78,15 +100,15 @@
                   </div>
 
                   <div class="story" *ngIf="a.biography">
-                    <h6>Parcours</h6>
+                    <h3>Parcours</h3>
                     <p [innerText]="a.biography"></p>
                   </div>
                 </div>
               </div>
               <!-- /FACE ARRIÈRE -->
 
-            </div> <!-- /.flipcard-inner -->
-          </div> <!-- /.flipcard -->
+            </div>
+          </div>
         </div>
       </div>
     </section>
