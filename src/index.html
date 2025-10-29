@@ -14,6 +14,59 @@
   <!-- model-viewer (module + fallback legacy) -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+  <script>
+    // Détecteur de gestes (1 doigt = move, 2 doigts = pinch/rotate)
+    AFRAME.registerComponent('gesture-detector', {
+      schema: {enabled: {default: true}},
+      init: function () {
+        this.touchState = {touches: [], startSpread: 0};
+        this.el.sceneEl.canvas.addEventListener('touchstart', this.onStart.bind(this), {passive:false});
+        this.el.sceneEl.canvas.addEventListener('touchmove',  this.onMove.bind(this),  {passive:false});
+        this.el.sceneEl.canvas.addEventListener('touchend',   this.onEnd.bind(this),   {passive:false});
+      },
+      emit(name, detail){ this.el.emit(name, detail); },
+      onStart(e){ if(!this.data.enabled) return; this.touchState.touches = [...e.touches]; if(e.touches.length===2){ this.touchState.startSpread = this.spread(e.touches);} },
+      onMove(e){
+        if(!this.data.enabled) return;
+        const ts = this.touchState;
+        if(e.touches.length===1 && ts.touches.length===1){
+          const dx = e.touches[0].clientX - ts.touches[0].clientX;
+          const dy = e.touches[0].clientY - ts.touches[0].clientY;
+          this.emit('onefingermove', {positionChange:{x:dx/200, y:dy/200}});
+        } else if(e.touches.length===2 && ts.touches.length===2){
+          const newSpread = this.spread(e.touches);
+          this.emit('twofingermove', {spreadChange:(newSpread - ts.startSpread)/300});
+          ts.startSpread = newSpread;
+        }
+        this.touchState.touches = [...e.touches];
+        e.preventDefault();
+      },
+      onEnd(e){ this.touchState.touches = [...e.touches]; },
+      spread(touches){
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.hypot(dx, dy);
+      }
+    });
+
+    // Handler sur le modèle: rotation (1 doigt), zoom (2 doigts)
+    AFRAME.registerComponent('gesture-handler', {
+      schema: {minScale:{default:0.01}, maxScale:{default:3}},
+      init: function(){
+        this.scale = this.el.object3D.scale.x || 1;
+        this.rotateStart = {x:0,y:0};
+        this.el.sceneEl.addEventListener('onefingermove', (e)=>{
+          this.el.object3D.rotation.y -= e.detail.positionChange.x * 2; // tourner gauche/droite
+          this.el.object3D.rotation.x -= e.detail.positionChange.y * 2; // incliner haut/bas
+        });
+        this.el.sceneEl.addEventListener('twofingermove', (e)=>{
+          this.scale = THREE.MathUtils.clamp(this.scale * (1 + e.detail.spreadChange), this.data.minScale, this.data.maxScale);
+          this.el.object3D.scale.set(this.scale, this.scale, this.scale);
+        });
+      }
+    });
+  </script>
+
 </head>
 <body>
 <app-root></app-root>

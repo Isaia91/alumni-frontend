@@ -1,9 +1,12 @@
-<a-scene embedded arjs>
+<a-scene embedded arjs gesture-detector>
   <a-marker preset="hiro" id="marker">
-    <a-entity
-      gltf-model="assets/models/Iut.glb"
-      scale="0.02 0.02 0.02"
-      position="0 0 0">
+    <a-entity rotation="90 -180 0">
+      <a-entity
+        gltf-model="assets/models/Iut.glb"
+        scale="0.02 0.02 0.02"
+        position="0 0 0"
+        gesture-handler>
+      </a-entity>
     </a-entity>
   </a-marker>
 
