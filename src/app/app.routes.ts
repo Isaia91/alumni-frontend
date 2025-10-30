@@ -7,4 +7,5 @@ export const routes: Routes = [
   { path: 'alumni', component: AlumniListComponent },
   { path: 'alumni/:id', component: AlumniDetailComponent },
   { path: 'ar', loadComponent: () => import('./features/alumni/alumni-ar/alumni-ar').then(m => m.AlumniAr) },
+  { path: 'ar2', loadComponent: () => import('./features/alumni/alumni-ar2/alumni-ar2').then(m => m.AlumniAr2) },
 ];
